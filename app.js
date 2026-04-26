@@ -264,3 +264,13 @@ ejsScript.onload=function(){if(typeof emailjs!=='undefined')emailjs.init(EMAILJS
 document.head.appendChild(ejsScript);
 
 loadDesigns();
+
+function openLightbox(src, alt) {
+  document.getElementById('bpp-lightbox-img').src = src;
+  document.getElementById('bpp-lightbox-img').alt = alt;
+  document.getElementById('bpp-lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('bpp-lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
