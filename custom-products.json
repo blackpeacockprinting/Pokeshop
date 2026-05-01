@@ -37,7 +37,7 @@
     "category": "magnet",
     "price": 4,
     "description": "A 3D printed Pikachu Poké Ball fusion magnet. Multi-colour print with strong magnetic backing.",
-    "photo": ""
+    "photo": "https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/custom/magnet-pikachu.jpeg"
   },
   {
     "slug": "magnet-eevee",
