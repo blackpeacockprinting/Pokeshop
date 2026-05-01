@@ -9,8 +9,6 @@
   body{background:#111;color:#eee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
   .screen{display:none;min-height:100vh;}
   .screen.active{display:flex;flex-direction:column;}
-
-  /* PIN screen */
   .pin-screen{align-items:center;justify-content:center;padding:2rem;}
   .pin-logo{font-size:22px;font-weight:700;color:#b8960c;letter-spacing:1px;margin-bottom:2rem;text-align:center;}
   .pin-dots{display:flex;gap:16px;margin-bottom:2rem;}
@@ -20,33 +18,23 @@
   .pin-btn{background:#1e1e1e;border:1px solid #333;color:#eee;font-size:22px;padding:18px;border-radius:12px;cursor:pointer;transition:background 0.1s;}
   .pin-btn:active{background:#2a2a2a;}
   .pin-err{color:#e05050;font-size:13px;margin-top:1rem;text-align:center;min-height:20px;}
-
-  /* Main screen */
   .main-screen{padding:0;}
   .header{background:#1a1a1a;border-bottom:1px solid #2a2a2a;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
   .header-title{font-size:16px;font-weight:600;color:#b8960c;}
   .header-sub{font-size:11px;color:#666;margin-top:2px;}
   .logout-btn{background:none;border:1px solid #333;color:#888;font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer;}
-
   .content{padding:20px;flex:1;overflow-y:auto;}
-
-  /* Product list */
   .section-title{font-size:13px;font-weight:600;color:#b8960c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;}
   .product-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
   .product-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;}
-  .product-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;background:#222;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px;text-align:center;}
-  .product-thumb img{width:52px;height:52px;border-radius:8px;object-fit:cover;}
   .product-info{flex:1;min-width:0;}
   .product-name{font-size:14px;font-weight:500;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .product-meta{font-size:12px;color:#888;margin-top:2px;}
   .product-actions{display:flex;gap:8px;flex-shrink:0;}
   .edit-btn{background:#1e2a1e;border:1px solid #2a4a2a;color:#4ab84a;font-size:12px;padding:6px 10px;border-radius:8px;cursor:pointer;}
   .del-btn{background:#2a1e1e;border:1px solid #4a2a2a;color:#e05050;font-size:12px;padding:6px 10px;border-radius:8px;cursor:pointer;}
-
   .add-new-btn{width:100%;background:#b8960c;border:none;color:#111;font-size:15px;font-weight:600;padding:16px;border-radius:12px;cursor:pointer;margin-bottom:24px;}
   .add-new-btn:active{background:#a07800;}
-
-  /* Form */
   .form-screen{padding:0;}
   .form-header{background:#1a1a1a;border-bottom:1px solid #2a2a2a;padding:16px 20px;display:flex;align-items:center;gap:12px;}
   .back-btn{background:none;border:none;color:#b8960c;font-size:15px;cursor:pointer;padding:4px;}
@@ -57,10 +45,7 @@
   .finput,.fselect{width:100%;background:#1a1a1a;border:1px solid #333;color:#eee;font-size:15px;padding:12px 14px;border-radius:10px;outline:none;}
   .finput:focus,.fselect:focus{border-color:#b8960c;}
   .fselect option{background:#1a1a1a;}
-
-  /* Photo upload */
   .photo-upload{width:100%;height:180px;background:#1a1a1a;border:2px dashed #333;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;}
-  .photo-upload:active{border-color:#b8960c;}
   .photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
   .photo-upload-icon{font-size:32px;color:#555;margin-bottom:8px;}
   .photo-upload-text{font-size:13px;color:#666;}
@@ -69,21 +54,17 @@
   .photo-status.uploading{color:#b8960c;}
   .photo-status.done{color:#4ab84a;}
   .photo-status.err{color:#e05050;}
-
   .submit-btn{width:100%;background:#b8960c;border:none;color:#111;font-size:15px;font-weight:600;padding:16px;border-radius:12px;cursor:pointer;margin-top:8px;}
   .submit-btn:disabled{background:#555;color:#888;cursor:not-allowed;}
   .submit-btn:active:not(:disabled){background:#a07800;}
-
   .status-bar{background:#1e2a1e;border:1px solid #2a4a2a;color:#4ab84a;font-size:13px;padding:12px 14px;border-radius:10px;margin-top:12px;display:none;}
   .status-bar.err{background:#2a1e1e;border-color:#4a2a2a;color:#e05050;}
   .status-bar.show{display:block;}
-
   .cat-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;font-weight:500;}
 </style>
 </head>
 <body>
 
-<!-- PIN Screen -->
 <div class="screen pin-screen active" id="screen-pin">
   <div class="pin-logo">⬛ BPP Admin</div>
   <div class="pin-dots" id="pin-dots">
@@ -109,7 +90,6 @@
   <div class="pin-err" id="pin-err"></div>
 </div>
 
-<!-- Main Screen -->
 <div class="screen main-screen" id="screen-main">
   <div class="header">
     <div>
@@ -127,7 +107,6 @@
   </div>
 </div>
 
-<!-- Form Screen -->
 <div class="screen form-screen" id="screen-form">
   <div class="form-header">
     <button class="back-btn" onclick="closeForm()">← Back</button>
@@ -162,8 +141,8 @@
       <label class="flabel">Product Photo</label>
       <div class="photo-upload" id="photo-upload-area">
         <input type="file" accept="image/*" id="photo-input" onchange="handlePhotoSelect(this)">
-        <div class="photo-upload-icon" id="upload-icon">📷</div>
-        <div class="photo-upload-text" id="upload-text">Tap to select photo</div>
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-text">Tap to select photo</div>
       </div>
       <img class="photo-preview" id="photo-preview" style="display:none;">
       <div class="photo-status" id="photo-status"></div>
@@ -174,282 +153,207 @@
 </div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────────────
 var PIN = '9559';
 var GITHUB_OWNER = 'blackpeacockprinting';
 var GITHUB_REPO = 'Pokeshop';
 var GITHUB_FILE = 'custom-products.json';
 var GITHUB_BRANCH = 'main';
-// Get a GitHub PAT with repo scope and paste it here:
-// https://github.com/settings/tokens/new  → select "repo" → generate → copy
 var GITHUB_TOKEN = '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';
-
-// Firebase Storage config (from pokeprintadmin project)
 var FIREBASE_STORAGE_BUCKET = 'pokeprintadmin.firebasestorage.app';
 var FIREBASE_API_KEY = 'AIzaSyAOlEJfO7NFJ2Cde7thfTwX0P8NZ56zTgw';
-// ────────────────────────────────────────────────────────────────────────────
 
-var pinEntry = '';
-var products = [];
-var editingSlug = null;
-var uploadedPhotoUrl = '';
-var currentFileSHA = '';
+var pinEntry='',products=[],editingSlug=null,uploadedPhotoUrl='',currentFileSHA='';
 
-// PIN
-function pinPress(d) {
-  if (pinEntry.length >= 4) return;
-  pinEntry += d;
-  updateDots();
-  if (pinEntry.length === 4) checkPin();
+function pinPress(d){if(pinEntry.length>=4)return;pinEntry+=d;updateDots();if(pinEntry.length===4)checkPin();}
+function pinBack(){pinEntry=pinEntry.slice(0,-1);updateDots();}
+function pinClear(){pinEntry='';updateDots();}
+function updateDots(){for(var i=0;i<4;i++){document.getElementById('dot'+i).className='pin-dot'+(i<pinEntry.length?' filled':'');}}
+function checkPin(){
+  if(pinEntry===PIN){showScreen('main');loadProducts();}
+  else{document.getElementById('pin-err').textContent='Incorrect PIN';pinEntry='';updateDots();setTimeout(function(){document.getElementById('pin-err').textContent='';},1500);}
 }
-function pinBack() { pinEntry = pinEntry.slice(0, -1); updateDots(); }
-function pinClear() { pinEntry = ''; updateDots(); }
-function updateDots() {
-  for (var i = 0; i < 4; i++) {
-    document.getElementById('dot' + i).className = 'pin-dot' + (i < pinEntry.length ? ' filled' : '');
-  }
-}
-function checkPin() {
-  if (pinEntry === PIN) {
-    showScreen('main');
-    loadProducts();
-  } else {
-    document.getElementById('pin-err').textContent = 'Incorrect PIN';
-    pinEntry = '';
-    updateDots();
-    setTimeout(function() { document.getElementById('pin-err').textContent = ''; }, 1500);
-  }
-}
-function logout() { showScreen('pin'); pinEntry = ''; updateDots(); }
+function logout(){showScreen('pin');pinEntry='';updateDots();}
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.getElementById('screen-'+id).classList.add('active');}
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-  document.getElementById('screen-' + id).classList.add('active');
+function ghHeaders(){
+  return {
+    'Authorization': 'Bearer '+GITHUB_TOKEN,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
 }
 
-// Load products from GitHub
-function loadProducts() {
-  document.getElementById('product-list').innerHTML = '<div style="color:#666;font-size:13px;text-align:center;padding:20px;">Loading...</div>';
-  fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + GITHUB_FILE + '?ref=' + GITHUB_BRANCH, {
-    headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    currentFileSHA = data.sha;
-    products = JSON.parse(atob(data.content.replace(/\n/g, '')));
+function loadProducts(){
+  document.getElementById('product-list').innerHTML='<div style="color:#666;font-size:13px;text-align:center;padding:20px;">Loading...</div>';
+  fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE+'?ref='+GITHUB_BRANCH,{headers:ghHeaders()})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(!data.sha){throw new Error(data.message||'No SHA returned');}
+    currentFileSHA=data.sha;
+    products=JSON.parse(atob(data.content.replace(/\n/g,'')));
     renderProductList();
   })
-  .catch(function(e) {
-    document.getElementById('product-list').innerHTML = '<div style="color:#e05050;font-size:13px;text-align:center;padding:20px;">Failed to load. Check GitHub token.</div>';
+  .catch(function(e){
+    document.getElementById('product-list').innerHTML='<div style="color:#e05050;font-size:13px;text-align:center;padding:20px;">Failed to load: '+e.message+'</div>';
   });
 }
 
-var CAT_STYLES = {
-  'slab-stand': { label: 'Slab Stand', bg: '#1a1a2e', color: '#a0a0d4' },
-  'magnet': { label: 'Magnet', bg: '#2e1a0a', color: '#d4a060' },
-  'accessory': { label: 'Accessory', bg: '#1a1a1a', color: '#909090' }
-};
-function catStyle(c) { return CAT_STYLES[c] || { label: c, bg: '#222', color: '#aaa' }; }
+var CAT_STYLES={'slab-stand':{label:'Slab Stand',bg:'#1a1a2e',color:'#a0a0d4'},'magnet':{label:'Magnet',bg:'#2e1a0a',color:'#d4a060'},'accessory':{label:'Accessory',bg:'#1a1a1a',color:'#909090'}};
+function catStyle(c){return CAT_STYLES[c]||{label:c,bg:'#222',color:'#aaa'};}
 
-function renderProductList() {
-  if (!products.length) {
-    document.getElementById('product-list').innerHTML = '<div style="color:#666;font-size:13px;text-align:center;padding:20px;">No products yet. Add one!</div>';
-    return;
-  }
-  document.getElementById('product-list').innerHTML = products.map(function(p) {
-    var cs = catStyle(p.category);
-    var thumb = p.photo
-      ? '<img src="' + p.photo + '" style="width:52px;height:52px;border-radius:8px;object-fit:cover;">'
-      : '<div style="width:52px;height:52px;border-radius:8px;background:#222;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px;text-align:center;">' + cs.label + '</div>';
-    return '<div class="product-item">'
-      + thumb
-      + '<div class="product-info">'
-      + '<div class="product-name">' + p.name + '</div>'
-      + '<div class="product-meta">$' + p.price + ' &middot; <span class="cat-badge" style="background:' + cs.bg + ';color:' + cs.color + '">' + cs.label + '</span></div>'
-      + '</div>'
-      + '<div class="product-actions">'
-      + '<button class="edit-btn" onclick="openForm(\'' + p.slug + '\')">Edit</button>'
-      + '<button class="del-btn" onclick="deleteProduct(\'' + p.slug + '\')">Del</button>'
-      + '</div></div>';
+function renderProductList(){
+  if(!products.length){document.getElementById('product-list').innerHTML='<div style="color:#666;font-size:13px;text-align:center;padding:20px;">No products yet. Add one!</div>';return;}
+  document.getElementById('product-list').innerHTML=products.map(function(p){
+    var cs=catStyle(p.category);
+    var thumb=p.photo
+      ?'<img src="'+p.photo+'" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;">'
+      :'<div style="width:52px;height:52px;border-radius:8px;background:#222;display:flex;align-items:center;justify-content:center;color:#555;font-size:9px;text-align:center;flex-shrink:0;">'+cs.label+'</div>';
+    return '<div class="product-item">'+thumb
+      +'<div class="product-info"><div class="product-name">'+p.name+'</div>'
+      +'<div class="product-meta">$'+p.price+' &middot; <span class="cat-badge" style="background:'+cs.bg+';color:'+cs.color+'">'+cs.label+'</span></div></div>'
+      +'<div class="product-actions">'
+      +'<button class="edit-btn" onclick="openForm(\''+p.slug+'\')">Edit</button>'
+      +'<button class="del-btn" onclick="deleteProduct(\''+p.slug+'\')">Del</button>'
+      +'</div></div>';
   }).join('');
 }
 
-// Form
-function openForm(slug) {
-  editingSlug = slug;
-  uploadedPhotoUrl = '';
-  document.getElementById('form-title').textContent = slug ? 'Edit Product' : 'Add Product';
-  document.getElementById('photo-preview').style.display = 'none';
-  document.getElementById('photo-upload-area').style.display = 'flex';
-  document.getElementById('photo-status').textContent = '';
-  document.getElementById('photo-status').className = 'photo-status';
-  document.getElementById('status-bar').className = 'status-bar';
-  document.getElementById('photo-input').value = '';
-
-  if (slug) {
-    var p = products.find(function(x) { return x.slug === slug; });
-    if (p) {
-      document.getElementById('f-name').value = p.name;
-      document.getElementById('f-slug').value = p.slug;
-      document.getElementById('f-category').value = p.category;
-      document.getElementById('f-price').value = p.price;
-      document.getElementById('f-desc').value = p.description;
-      uploadedPhotoUrl = p.photo || '';
-      if (p.photo) {
-        document.getElementById('photo-preview').src = p.photo;
-        document.getElementById('photo-preview').style.display = 'block';
-        document.getElementById('photo-upload-area').style.display = 'none';
-        document.getElementById('photo-status').textContent = 'Current photo loaded';
-        document.getElementById('photo-status').className = 'photo-status done';
+function openForm(slug){
+  editingSlug=slug;uploadedPhotoUrl='';
+  document.getElementById('form-title').textContent=slug?'Edit Product':'Add Product';
+  document.getElementById('photo-preview').style.display='none';
+  document.getElementById('photo-upload-area').style.display='flex';
+  document.getElementById('photo-status').textContent='';
+  document.getElementById('photo-status').className='photo-status';
+  document.getElementById('status-bar').className='status-bar';
+  document.getElementById('photo-input').value='';
+  if(slug){
+    var p=products.find(function(x){return x.slug===slug;});
+    if(p){
+      document.getElementById('f-name').value=p.name;
+      document.getElementById('f-slug').value=p.slug;
+      document.getElementById('f-category').value=p.category;
+      document.getElementById('f-price').value=p.price;
+      document.getElementById('f-desc').value=p.description;
+      uploadedPhotoUrl=p.photo||'';
+      if(p.photo){
+        document.getElementById('photo-preview').src=p.photo;
+        document.getElementById('photo-preview').style.display='block';
+        document.getElementById('photo-upload-area').style.display='none';
+        document.getElementById('photo-status').textContent='Current photo loaded';
+        document.getElementById('photo-status').className='photo-status done';
       }
     }
   } else {
-    document.getElementById('f-name').value = '';
-    document.getElementById('f-slug').value = '';
-    document.getElementById('f-category').value = 'slab-stand';
-    document.getElementById('f-price').value = '';
-    document.getElementById('f-desc').value = '';
+    document.getElementById('f-name').value='';
+    document.getElementById('f-slug').value='';
+    document.getElementById('f-category').value='slab-stand';
+    document.getElementById('f-price').value='';
+    document.getElementById('f-desc').value='';
   }
   showScreen('form');
 }
 
-function closeForm() { showScreen('main'); }
+function closeForm(){showScreen('main');}
 
-// Auto-generate slug from name
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('f-name').addEventListener('input', function() {
-    if (!editingSlug) {
-      document.getElementById('f-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    }
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('f-name').addEventListener('input',function(){
+    if(!editingSlug)document.getElementById('f-slug').value=this.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   });
 });
 
-// Photo handling
-function handlePhotoSelect(input) {
-  var file = input.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    document.getElementById('photo-preview').src = e.target.result;
-    document.getElementById('photo-preview').style.display = 'block';
-    document.getElementById('photo-upload-area').style.display = 'none';
-    document.getElementById('photo-status').textContent = 'Uploading...';
-    document.getElementById('photo-status').className = 'photo-status uploading';
+function handlePhotoSelect(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    document.getElementById('photo-preview').src=e.target.result;
+    document.getElementById('photo-preview').style.display='block';
+    document.getElementById('photo-upload-area').style.display='none';
+    document.getElementById('photo-status').textContent='Uploading...';
+    document.getElementById('photo-status').className='photo-status uploading';
     uploadToFirebase(file);
   };
   reader.readAsDataURL(file);
 }
 
-function uploadToFirebase(file) {
-  var slug = document.getElementById('f-slug').value.trim() || ('product-' + Date.now());
-  var ext = file.name.split('.').pop();
-  var path = 'product-photos/custom/' + slug + '.' + ext;
-  var url = 'https://firebasestorage.googleapis.com/v0/b/' + FIREBASE_STORAGE_BUCKET + '/o/' + encodeURIComponent(path) + '?uploadType=media&key=' + FIREBASE_API_KEY;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', url, true);
-  xhr.setRequestHeader('Content-Type', file.type);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      var resp = JSON.parse(xhr.responseText);
-      uploadedPhotoUrl = 'https://storage.googleapis.com/' + FIREBASE_STORAGE_BUCKET + '/' + path;
-      document.getElementById('photo-status').textContent = '✓ Photo uploaded';
-      document.getElementById('photo-status').className = 'photo-status done';
+function uploadToFirebase(file){
+  var slug=document.getElementById('f-slug').value.trim()||('product-'+Date.now());
+  var ext=file.name.split('.').pop();
+  var path='product-photos/custom/'+slug+'.'+ext;
+  var url='https://firebasestorage.googleapis.com/v0/b/'+FIREBASE_STORAGE_BUCKET+'/o/'+encodeURIComponent(path)+'?uploadType=media&key='+FIREBASE_API_KEY;
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST',url,true);
+  xhr.setRequestHeader('Content-Type',file.type);
+  xhr.onload=function(){
+    if(xhr.status===200){
+      uploadedPhotoUrl='https://storage.googleapis.com/'+FIREBASE_STORAGE_BUCKET+'/'+path;
+      document.getElementById('photo-status').textContent='✓ Photo uploaded';
+      document.getElementById('photo-status').className='photo-status done';
     } else {
-      document.getElementById('photo-status').textContent = 'Upload failed: ' + xhr.status;
-      document.getElementById('photo-status').className = 'photo-status err';
+      document.getElementById('photo-status').textContent='Upload failed: '+xhr.status;
+      document.getElementById('photo-status').className='photo-status err';
     }
   };
-  xhr.onerror = function() {
-    document.getElementById('photo-status').textContent = 'Upload failed (network error)';
-    document.getElementById('photo-status').className = 'photo-status err';
-  };
+  xhr.onerror=function(){document.getElementById('photo-status').textContent='Upload failed (network error)';document.getElementById('photo-status').className='photo-status err';};
   xhr.send(file);
 }
 
-// Save product to GitHub
-function saveProduct() {
-  var name = document.getElementById('f-name').value.trim();
-  var slug = document.getElementById('f-slug').value.trim();
-  var category = document.getElementById('f-category').value;
-  var price = parseFloat(document.getElementById('f-price').value);
-  var desc = document.getElementById('f-desc').value.trim();
-
-  if (!name || !slug || !price) {
-    showStatus('Name, slug and price are required.', true);
-    return;
-  }
-
-  var product = { slug: slug, name: name, category: category, price: price, description: desc, photo: uploadedPhotoUrl };
-
-  if (editingSlug) {
-    var idx = products.findIndex(function(p) { return p.slug === editingSlug; });
-    if (idx >= 0) products[idx] = product; else products.push(product);
+function saveProduct(){
+  var name=document.getElementById('f-name').value.trim();
+  var slug=document.getElementById('f-slug').value.trim();
+  var category=document.getElementById('f-category').value;
+  var price=parseFloat(document.getElementById('f-price').value);
+  var desc=document.getElementById('f-desc').value.trim();
+  if(!name||!slug||!price){showStatus('Name, slug and price are required.',true);return;}
+  var product={slug:slug,name:name,category:category,price:price,description:desc,photo:uploadedPhotoUrl};
+  if(editingSlug){
+    var idx=products.findIndex(function(p){return p.slug===editingSlug;});
+    if(idx>=0)products[idx]=product;else products.push(product);
   } else {
-    if (products.find(function(p) { return p.slug === slug; })) {
-      showStatus('A product with this slug already exists.', true);
-      return;
-    }
+    if(products.find(function(p){return p.slug===slug;})){showStatus('A product with this slug already exists.',true);return;}
     products.push(product);
   }
-
-  commitToGitHub();
+  commitToGitHub(false);
 }
 
-function deleteProduct(slug) {
-  if (!confirm('Delete "' + slug + '"?')) return;
-  products = products.filter(function(p) { return p.slug !== slug; });
+function deleteProduct(slug){
+  if(!confirm('Delete "'+slug+'"?'))return;
+  products=products.filter(function(p){return p.slug!==slug;});
   commitToGitHub(true);
 }
 
-function commitToGitHub(isDelete) {
-  var btn = document.getElementById('submit-btn');
-  if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
-
-  var content = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
-  var body = JSON.stringify({
-    message: (isDelete ? 'Delete' : (editingSlug ? 'Update' : 'Add')) + ' custom product via BPP Admin',
-    content: content,
-    sha: currentFileSHA,
-    branch: GITHUB_BRANCH
-  });
-
-  fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + GITHUB_TOKEN,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: body
+function commitToGitHub(isDelete){
+  var btn=document.getElementById('submit-btn');
+  if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  var content=btoa(unescape(encodeURIComponent(JSON.stringify(products,null,2))));
+  fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE,{
+    method:'PUT',
+    headers:Object.assign({'Content-Type':'application/json'},ghHeaders()),
+    body:JSON.stringify({
+      message:(isDelete?'Delete':editingSlug?'Update':'Add')+' custom product via BPP Admin',
+      content:content,
+      sha:currentFileSHA,
+      branch:GITHUB_BRANCH
+    })
   })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (data.content) {
-      currentFileSHA = data.content.sha;
-      if (isDelete) {
-        renderProductList();
-        showScreen('main');
-      } else {
-        showStatus('✓ Saved! Live on shop in ~60 seconds.', false);
-        setTimeout(function() { closeForm(); loadProducts(); }, 1500);
-      }
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.content&&data.content.sha){
+      currentFileSHA=data.content.sha;
+      if(isDelete){renderProductList();showScreen('main');}
+      else{showStatus('✓ Saved! Live on shop in ~60 seconds.',false);setTimeout(function(){closeForm();loadProducts();},1500);}
     } else {
-      showStatus('GitHub error: ' + JSON.stringify(data.message), true);
+      showStatus('GitHub error: '+(data.message||JSON.stringify(data)),true);
     }
   })
-  .catch(function(e) {
-    showStatus('Save failed: ' + e.message, true);
-  })
-  .finally(function() {
-    if (btn) { btn.disabled = false; btn.textContent = 'Save Product'; }
-  });
+  .catch(function(e){showStatus('Save failed: '+e.message,true);})
+  .finally(function(){if(btn){btn.disabled=false;btn.textContent='Save Product';}});
 }
 
-function showStatus(msg, isErr) {
-  var el = document.getElementById('status-bar');
-  el.textContent = msg;
-  el.className = 'status-bar show' + (isErr ? ' err' : '');
+function showStatus(msg,isErr){
+  var el=document.getElementById('status-bar');
+  el.textContent=msg;
+  el.className='status-bar show'+(isErr?' err':'');
 }
 </script>
 </body>
