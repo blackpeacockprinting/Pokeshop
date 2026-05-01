@@ -193,7 +193,7 @@ function loadProducts(){
   .then(function(data){
     if(!data.sha){throw new Error(data.message||'No SHA');}
     currentFileSHA=data.sha;
-    products=JSON.parse(atob(data.content.replace(/\n/g,'')));
+    products=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
     renderProductList();
   })
   .catch(function(e){document.getElementById('product-list').innerHTML='<div style="color:#e05050;font-size:13px;text-align:center;padding:20px;">Failed to load: '+e.message+'</div>';});
