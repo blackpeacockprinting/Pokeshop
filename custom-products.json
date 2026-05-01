@@ -53,7 +53,7 @@
     "category": "magnet",
     "price": 3,
     "description": "A classic 3D printed Poké Ball magnet. Clean two-colour print with strong magnetic backing.",
-    "photo": ""
+    "photo": "https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/custom/magnet-pokeball.jpeg"
   },
   {
     "slug": "display-stand",
