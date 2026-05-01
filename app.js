@@ -56,25 +56,42 @@ function getPrice(g){return g<=149?8:g<=249?10:12;}
 var TC={fire:{bg:'#3d1a0a',text:'#e87722',border:'#7a3410'},water:{bg:'#0a1a2e',text:'#4a9fd4',border:'#1a4a7a'},grass:{bg:'#0a2010',text:'#4ab84a',border:'#1a5a1a'},electric:{bg:'#2e2400',text:'#d4b800',border:'#6a5a00'},psychic:{bg:'#2e0a1a',text:'#d45a8a',border:'#7a1a4a'},ghost:{bg:'#1a0a2e',text:'#8a6ad4',border:'#4a2a8a'},dragon:{bg:'#0a0a2e',text:'#6a6ad4',border:'#2a2a8a'},dark:{bg:'#1a1410',text:'#8a7a6a',border:'#4a3a2a'},fairy:{bg:'#2e0a1e',text:'#d47ab4',border:'#8a2a6a'},normal:{bg:'#1e1e18',text:'#a0a090',border:'#4a4a40'},fighting:{bg:'#2e1000',text:'#c46030',border:'#7a2a00'},flying:{bg:'#0e1a2e',text:'#7aaad4',border:'#2a5a8a'},poison:{bg:'#1e0a2e',text:'#a05ac4',border:'#5a1a7a'},ground:{bg:'#2a1e08',text:'#b4884a',border:'#6a4a10'},rock:{bg:'#1e1a0a',text:'#909060',border:'#4a4820'},bug:{bg:'#0e1e00',text:'#7aa020',border:'#2a5800'},steel:{bg:'#141820',text:'#8898b0',border:'#303848'},ice:{bg:'#081e2a',text:'#6ab4cc',border:'#1a5878'}};
 function ts(t){return TC[t]||TC.normal;}
 
+// Custom product category styles
+var CC={'slab-stand':{label:'Slab Stand',bg:'#1a1a2e',text:'#a0a0d4',border:'#4a4a8a'},'magnet':{label:'Magnet',bg:'#2e1a0a',text:'#d4a060',border:'#8a5a20'},'accessory':{label:'Accessory',bg:'#1a1a1a',text:'#909090',border:'#484848'}};
+function cs(cat){return CC[cat]||{label:cat,bg:'#1e1e18',text:'#a0a090',border:'#4a4a40'};}
+
 function ballSVG(type){
   var s=ts(type);
   return '<svg width="72" height="72" viewBox="0 0 72 72" fill="none"><circle cx="36" cy="36" r="32" stroke="'+s.border+'" stroke-width="2" fill="'+s.bg+'"/><path d="M4 36 Q36 36 68 36" stroke="'+s.border+'" stroke-width="2"/><circle cx="36" cy="36" r="8" fill="'+s.bg+'" stroke="'+s.text+'" stroke-width="1.5"/><circle cx="36" cy="36" r="4" fill="'+s.text+'" opacity="0.6"/></svg>';
 }
 
-var allDesigns=[],activeFilter='all',cart=[],info={},step='cart';
+var allDesigns=[],customProducts=[],activeFilter='all',cart=[],info={},step='cart';
 
 function getFilters(designs){
   var types=new Set();
   designs.forEach(function(d){if(d.pokemon&&d.pokemon.types)d.pokemon.types.forEach(function(t){types.add(t.toLowerCase());});});
-  return['all'].concat(Array.from(types).sort());
+  var arr=['all'].concat(Array.from(types).sort());
+  // Add custom categories if any custom products loaded
+  if(customProducts.length){
+    var cats=new Set();
+    customProducts.forEach(function(p){cats.add('custom:'+p.category);});
+    cats.forEach(function(c){arr.push(c);});
+  }
+  return arr;
+}
+
+function filterLabel(f){
+  if(f==='all')return'All types';
+  if(f.indexOf('custom:')===0){var cat=f.replace('custom:','');return cs(cat).label;}
+  return f;
 }
 
 function renderFilters(designs){
   document.getElementById('filter-bar').innerHTML=getFilters(designs).map(function(f){
-    var s=ts(f);
-var style=f==='all'?'':' style="border-color:'+s.border+';color:'+s.text+'"';
-var activeStyle=f==='all'?'':' style="background:'+s.bg+';border-color:'+s.border+';color:'+s.text+'"';
-return '<button class="filter-btn '+(f===activeFilter?'active':'')+'"'+( f===activeFilter?activeStyle:style)+' onclick="setFilter(\''+f+'\')">'+(f==='all'?'All types':f)+'</button>';
+    var s=f.indexOf('custom:')===0?cs(f.replace('custom:','')):ts(f);
+    var style=f==='all'?'':' style="border-color:'+s.border+';color:'+s.text+'"';
+    var activeStyle=f==='all'?'':' style="background:'+s.bg+';border-color:'+s.border+';color:'+s.text+'"';
+    return '<button class="filter-btn '+(f===activeFilter?'active':'')+'"'+(f===activeFilter?activeStyle:style)+' onclick="setFilter(\''+f+'\')">'+filterLabel(f)+'</button>';
   }).join('');
 }
 
@@ -83,32 +100,71 @@ function setFilter(f){activeFilter=f;renderFilters(allDesigns);renderProducts();
 function searchDesigns(q){searchQuery=q.toLowerCase();renderProducts();}
 
 function renderProducts(){
-  var filtered=activeFilter==='all'?allDesigns:allDesigns.filter(function(d){
-    return d.pokemon&&d.pokemon.types&&d.pokemon.types.map(function(t){return t.toLowerCase();}).indexOf(activeFilter)>=0;
-  });
-  if(searchQuery){filtered=filtered.filter(function(d){var name=d.pokemon?d.pokemon.name.toLowerCase():d.title.toLowerCase();return name.indexOf(searchQuery)>=0;});}
-  if(!filtered.length){document.getElementById('shop-content').innerHTML='<div class="error-state"><p class="error-msg">No designs found for this type.</p></div>';return;}
-  var html=filtered.map(function(d){
-    var price=getPrice(d.total_weight_grams||0);
-    var type=d.pokemon&&d.pokemon.types&&d.pokemon.types[0]?d.pokemon.types[0].toLowerCase():'normal';
-    var s=ts(type);
-    var desc=d.pokemon&&d.pokemon.description?d.pokemon.description.substring(0,90)+'...':'A precision multi-colour 3D printed Pokemon Poke Ball fusion.';
-    var rawName=d.pokemon?d.pokemon.name:d.title;var pokeName=rawName.charAt(0).toUpperCase()+rawName.slice(1);
-    var photo=MY_PHOTOS[d.slug]||'';
-    var imgContent=photo?'<img src="'+photo+'" alt="'+pokeName+'" loading="lazy" onclick="openLightbox(this.src,this.alt)" style="cursor:zoom-in">'
-      :'<div class="poke-placeholder">'+ballSVG(type)+'</div>';
-    var safeName=pokeName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return '<div class="product-card">'
-      +'<div class="product-img">'+imgContent
-      +'<div class="type-badge" style="background:'+s.bg+';color:'+s.text+';border:0.5px solid '+s.border+'">'+type+'</div>'
-      +'</div>'
-      +'<div class="product-info">'
-      +'<p class="product-name">'+pokeName+'</p>'
-      +'<p class="product-desc">'+desc+'</p>'
-      +'<div class="product-footer">'
-      +'<span class="product-price">$'+price+'</span>'
-      +'<button class="add-btn" onclick="addToCart(\''+d.slug+'\','+price+',\''+safeName+'\',\''+photo+'\')">Add to cart</button>'
-      +'</div></div></div>';
+  // Build combined list: N3D designs + custom products (custom appended at end)
+  var combined=[];
+
+  // Filter N3D designs
+  if(activeFilter==='all'||activeFilter.indexOf('custom:')<0){
+    var filtered=activeFilter==='all'?allDesigns:allDesigns.filter(function(d){
+      return d.pokemon&&d.pokemon.types&&d.pokemon.types.map(function(t){return t.toLowerCase();}).indexOf(activeFilter)>=0;
+    });
+    if(searchQuery){filtered=filtered.filter(function(d){var name=d.pokemon?d.pokemon.name.toLowerCase():d.title.toLowerCase();return name.indexOf(searchQuery)>=0;});}
+    combined=combined.concat(filtered.map(function(d){return{type:'n3d',data:d};}));
+  }
+
+  // Filter custom products
+  if(activeFilter==='all'||activeFilter.indexOf('custom:')===0){
+    var catFilter=activeFilter.indexOf('custom:')===0?activeFilter.replace('custom:',''):null;
+    var filteredCustom=catFilter?customProducts.filter(function(p){return p.category===catFilter;}):customProducts;
+    if(searchQuery){filteredCustom=filteredCustom.filter(function(p){return p.name.toLowerCase().indexOf(searchQuery)>=0;});}
+    combined=combined.concat(filteredCustom.map(function(p){return{type:'custom',data:p};}));
+  }
+
+  if(!combined.length){document.getElementById('shop-content').innerHTML='<div class="error-state"><p class="error-msg">No designs found for this type.</p></div>';return;}
+
+  var html=combined.map(function(item){
+    if(item.type==='n3d'){
+      var d=item.data;
+      var price=getPrice(d.total_weight_grams||0);
+      var type=d.pokemon&&d.pokemon.types&&d.pokemon.types[0]?d.pokemon.types[0].toLowerCase():'normal';
+      var s=ts(type);
+      var desc=d.pokemon&&d.pokemon.description?d.pokemon.description.substring(0,90)+'...':'A precision multi-colour 3D printed Pokemon Poke Ball fusion.';
+      var rawName=d.pokemon?d.pokemon.name:d.title;var pokeName=rawName.charAt(0).toUpperCase()+rawName.slice(1);
+      var photo=MY_PHOTOS[d.slug]||'';
+      var imgContent=photo?'<img src="'+photo+'" alt="'+pokeName+'" loading="lazy" onclick="openLightbox(this.src,this.alt)" style="cursor:zoom-in">'
+        :'<div class="poke-placeholder">'+ballSVG(type)+'</div>';
+      var safeName=pokeName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      return '<div class="product-card">'
+        +'<div class="product-img">'+imgContent
+        +'<div class="type-badge" style="background:'+s.bg+';color:'+s.text+';border:0.5px solid '+s.border+'">'+type+'</div>'
+        +'</div>'
+        +'<div class="product-info">'
+        +'<p class="product-name">'+pokeName+'</p>'
+        +'<p class="product-desc">'+desc+'</p>'
+        +'<div class="product-footer">'
+        +'<span class="product-price">$'+price+'</span>'
+        +'<button class="add-btn" onclick="addToCart(\''+d.slug+'\','+price+',\''+safeName+'\',\''+photo+'\')">Add to cart</button>'
+        +'</div></div></div>';
+    } else {
+      // Custom product card
+      var p=item.data;
+      var s=cs(p.category);
+      var photo=p.photo||'';
+      var imgContent=photo?'<img src="'+photo+'" alt="'+p.name+'" loading="lazy" onclick="openLightbox(this.src,this.alt)" style="cursor:zoom-in">'
+        :'<div class="poke-placeholder"><div style="color:'+s.text+';font-size:11px;text-align:center;padding:8px">'+s.label+'</div></div>';
+      var safeName=p.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      return '<div class="product-card">'
+        +'<div class="product-img">'+imgContent
+        +'<div class="type-badge" style="background:'+s.bg+';color:'+s.text+';border:0.5px solid '+s.border+'">'+s.label+'</div>'
+        +'</div>'
+        +'<div class="product-info">'
+        +'<p class="product-name">'+p.name+'</p>'
+        +'<p class="product-desc">'+p.description+'</p>'
+        +'<div class="product-footer">'
+        +'<span class="product-price">$'+p.price+'</span>'
+        +'<button class="add-btn" onclick="addToCart(\''+p.slug+'\','+p.price+',\''+safeName+'\',\''+photo+'\')">Add to cart</button>'
+        +'</div></div></div>';
+    }
   }).join('');
   document.getElementById('shop-content').innerHTML='<div class="products-grid">'+html+'</div>';
 }
@@ -119,21 +175,32 @@ function showError(msg){
 
 function loadDesigns(){
   document.getElementById('shop-content').innerHTML='<div class="loading-state"><div class="loading-spinner"></div><p>Loading designs...</p></div>';
-  var xhr=new XMLHttpRequest();
-  xhr.open('GET','designs.json',true);
-  xhr.timeout=30000;
-  xhr.onload=function(){
-    if(xhr.status!==200){showError('HTTP '+xhr.status);return;}
-    var data;
-    try{data=JSON.parse(xhr.responseText);}catch(e){showError('Parse error: '+e.message);return;}
-    allDesigns=data.data||[];
-    if(!allDesigns.length){showError('No designs found');return;}
-    renderFilters(allDesigns);
-    renderProducts();
+  // Load custom products first, then N3D designs
+  var cpXhr=new XMLHttpRequest();
+  cpXhr.open('GET','custom-products.json',true);
+  cpXhr.onload=function(){
+    if(cpXhr.status===200){
+      try{customProducts=JSON.parse(cpXhr.responseText);}catch(e){customProducts=[];}
+    }
+    // Now load N3D designs
+    var xhr=new XMLHttpRequest();
+    xhr.open('GET','designs.json',true);
+    xhr.timeout=30000;
+    xhr.onload=function(){
+      if(xhr.status!==200){showError('HTTP '+xhr.status);return;}
+      var data;
+      try{data=JSON.parse(xhr.responseText);}catch(e){showError('Parse error: '+e.message);return;}
+      allDesigns=data.data||[];
+      if(!allDesigns.length){showError('No designs found');return;}
+      renderFilters(allDesigns);
+      renderProducts();
+    };
+    xhr.onerror=function(){showError('Network error');};
+    xhr.ontimeout=function(){showError('Request timed out');};
+    xhr.send();
   };
-  xhr.onerror=function(){showError('Network error');};
-  xhr.ontimeout=function(){showError('Request timed out');};
-  xhr.send();
+  cpXhr.onerror=function(){customProducts=[];};
+  cpXhr.send();
 }
 
 function total(){return cart.reduce(function(s,i){return s+i.price*i.qty;},0);}
@@ -187,7 +254,7 @@ function renderCart(){
   var items='';
   for(var i=0;i<cart.length;i++){
     var it=cart[i];
-    items+='<div class="citem"><div class="cthumb">'+(it.photo?'<img src="'+it.photo+'" alt="'+it.name+'">':it.name.slice(0,3).toUpperCase())+'</div><div class="cdetail"><p class="cname">'+it.name+' Pokeball</p><p class="csub">$'+it.price+' each</p></div><div class="cright"><span class="cprice">$'+(it.price*it.qty).toFixed(2)+'</span><div class="qrow"><button class="qbtn" onclick="chgQty(\''+it.slug+'\',-1)">-</button><span class="qnum">'+it.qty+'</span><button class="qbtn" onclick="chgQty(\''+it.slug+'\',1)">+</button></div><button class="rmbtn" onclick="rmItem(\''+it.slug+'\')">Remove</button></div></div>';
+    items+='<div class="citem"><div class="cthumb">'+(it.photo?'<img src="'+it.photo+'" alt="'+it.name+'">':it.name.slice(0,3).toUpperCase())+'</div><div class="cdetail"><p class="cname">'+it.name+'</p><p class="csub">$'+it.price+' each</p></div><div class="cright"><span class="cprice">$'+(it.price*it.qty).toFixed(2)+'</span><div class="qrow"><button class="qbtn" onclick="chgQty(\''+it.slug+'\',-1)">-</button><span class="qnum">'+it.qty+'</span><button class="qbtn" onclick="chgQty(\''+it.slug+'\',1)">+</button></div><button class="rmbtn" onclick="rmItem(\''+it.slug+'\')">Remove</button></div></div>';
   }
   B.innerHTML=items+'<div class="summary"><div class="srow"><span>Subtotal ('+count()+' item'+(count()!==1?'s':'')+')</span><span>$'+total().toFixed(2)+'</span></div><div class="srow"><span>Shipping</span><span style="color:#4ab84a">Local pickup only</span></div><div class="sdiv"></div><div class="stotal"><span>Total due at delivery</span><span>$'+total().toFixed(2)+'</span></div></div><div class="notice"><p class="ntext"><strong>Pay on delivery</strong> - no payment taken now. Cash or Zelle accepted when you collect.</p></div>';
   F.innerHTML='<button class="btn-gold" onclick="setStep(\'details\')">Continue</button>';
@@ -218,7 +285,7 @@ function validate(){
 
 function renderConfirm(){
   var B=document.getElementById('pbody'),F=document.getElementById('pfoot');
-  var mi='';for(var i=0;i<cart.length;i++){mi+='<div class="mini-row"><span>'+cart[i].name+' Pokeball x '+cart[i].qty+'</span><span>$'+(cart[i].price*cart[i].qty).toFixed(2)+'</span></div>';}
+  var mi='';for(var i=0;i<cart.length;i++){mi+='<div class="mini-row"><span>'+cart[i].name+' x '+cart[i].qty+'</span><span>$'+(cart[i].price*cart[i].qty).toFixed(2)+'</span></div>';}
   B.innerHTML='<button class="btn-back" onclick="setStep(\'details\')">Edit details</button><div class="mini"><p class="mini-label">Items</p>'+mi+'<div class="mini-total"><span>Total due at delivery</span><span>$'+total().toFixed(2)+'</span></div></div><div class="cdetails" style="margin-bottom:1.25rem"><p class="mini-label" style="margin-bottom:9px">Your details</p><div class="crow"><span>Name</span><span>'+info.name+'</span></div><div class="crow"><span>Phone</span><span>'+info.phone+'</span></div><div class="crow"><span>Email</span><span>'+info.email+'</span></div><div class="crow"><span>Contact via</span><span>'+info.contact_method+'</span></div>'+(info.shiny?'<div class="crow"><span>Shiny request</span><span>'+info.shiny+'</span></div>':'')+'</div><div class="notice"><p class="ntext"><strong>Pay on delivery</strong> - cash or Zelle accepted. Nothing is charged now.</p></div>';
   F.innerHTML='<button class="btn-gold" id="pbtn" onclick="placeOrder()">Place order</button>';
 }
@@ -229,7 +296,7 @@ function placeOrder(){
   var ref=genRef();
   var placedAt=new Date().toISOString();
   var itemsText='';
-  for(var i=0;i<cart.length;i++){itemsText+=cart[i].name+' Pokeball x'+cart[i].qty+' - $'+(cart[i].price*cart[i].qty).toFixed(2)+'\n';}
+  for(var i=0;i<cart.length;i++){itemsText+=cart[i].name+' x'+cart[i].qty+' - $'+(cart[i].price*cart[i].qty).toFixed(2)+'\n';}
   var orderItems=[];
   for(var i=0;i<cart.length;i++){orderItems.push({slug:cart[i].slug,name:cart[i].name,qty:cart[i].qty,unit_price:cart[i].price,line_total:+(cart[i].price*cart[i].qty).toFixed(2)});}
   var orderData={ref:ref,placed_at:placedAt,customer:{name:info.name,phone:info.phone,email:info.email,contact_method:info.contact_method},items:orderItems,total_usd:+total().toFixed(2),shiny_request:info.shiny||'',payment:'cash_or_zelle_on_delivery',fulfillment:'local_pickup'};
@@ -250,7 +317,7 @@ function renderDone(ref){
   document.getElementById('steps').style.display='none';
   document.getElementById('ptitle').textContent='Order placed';
   var first=info.name.split(' ')[0];
-  document.getElementById('pbody').innerHTML='<div class="cscreen"><div class="cicon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h2 class="ctitle">Order confirmed!</h2><p class="csub2">Thanks '+first+'! Your order is in. I will be in touch via '+info.contact_method+' to arrange collection.</p><p class="cref">Ref: '+ref+'</p><div class="cdetails"><div class="crow"><span>Items</span><span>'+count()+' figure'+(count()!==1?'s':'')+'</span></div><div class="crow"><span>Total due</span><span>$'+total().toFixed(2)+'</span></div><div class="crow"><span>Payment</span><span>Cash or Zelle on delivery</span></div><div class="crow"><span>Contact method</span><span>'+info.contact_method+'</span></div></div><div class="notice"><p class="ntext">No payment taken now - cash or Zelle is due when you collect your order.</p></div></div>';
+  document.getElementById('pbody').innerHTML='<div class="cscreen"><div class="cicon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h2 class="ctitle">Order confirmed!</h2><p class="csub2">Thanks '+first+'! Your order is in. I will be in touch via '+info.contact_method+' to arrange collection.</p><p class="cref">Ref: '+ref+'</p><div class="cdetails"><div class="crow"><span>Items</span><span>'+count()+' item'+(count()!==1?'s':'')+'</span></div><div class="crow"><span>Total due</span><span>$'+total().toFixed(2)+'</span></div><div class="crow"><span>Payment</span><span>Cash or Zelle on delivery</span></div><div class="crow"><span>Contact method</span><span>'+info.contact_method+'</span></div></div><div class="notice"><p class="ntext">No payment taken now - cash or Zelle is due when you collect your order.</p></div></div>';
   document.getElementById('pfoot').innerHTML='<button class="btn-gold" onclick="resetAndClose()">Back to shop</button>';
   cart=[];info={};
   document.getElementById('cart-count').textContent='0';

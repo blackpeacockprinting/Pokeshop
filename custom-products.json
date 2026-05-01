@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "slab-stand-pokeball",
+    "name": "Poké Ball Slab Stand",
+    "category": "slab-stand",
+    "price": 15,
+    "description": "A 3D printed Poké Ball themed phone/card slab display stand. Fits most standard slabs.",
+    "photo": ""
+  },
+  {
+    "slug": "slab-stand-greatball",
+    "name": "Great Ball Slab Stand",
+    "category": "slab-stand",
+    "price": 15,
+    "description": "A 3D printed Great Ball themed phone/card slab display stand. Fits most standard slabs.",
+    "photo": ""
+  },
+  {
+    "slug": "slab-stand-ultraball",
+    "name": "Ultra Ball Slab Stand",
+    "category": "slab-stand",
+    "price": 15,
+    "description": "A 3D printed Ultra Ball themed phone/card slab display stand. Fits most standard slabs.",
+    "photo": ""
+  },
+  {
+    "slug": "slab-stand-masterball",
+    "name": "Master Ball Slab Stand",
+    "category": "slab-stand",
+    "price": 15,
+    "description": "A 3D printed Master Ball themed phone/card slab display stand. Fits most standard slabs.",
+    "photo": ""
+  },
+  {
+    "slug": "magnet-pikachu",
+    "name": "Pikachu Magnet",
+    "category": "magnet",
+    "price": 4,
+    "description": "A 3D printed Pikachu Poké Ball fusion magnet. Multi-colour print with strong magnetic backing.",
+    "photo": ""
+  },
+  {
+    "slug": "magnet-eevee",
+    "name": "Eevee Magnet",
+    "category": "magnet",
+    "price": 4,
+    "description": "A 3D printed Eevee Poké Ball fusion magnet. Multi-colour print with strong magnetic backing.",
+    "photo": ""
+  },
+  {
+    "slug": "magnet-pokeball",
+    "name": "Poké Ball Magnet",
+    "category": "magnet",
+    "price": 3,
+    "description": "A classic 3D printed Poké Ball magnet. Clean two-colour print with strong magnetic backing.",
+    "photo": ""
+  },
+  {
+    "slug": "display-stand",
+    "name": "Display Stand",
+    "category": "accessory",
+    "price": 2,
+    "description": "A sleek 3D printed display stand for your Poké Ball figures. Matte black finish.",
+    "photo": ""
+  }
+]
