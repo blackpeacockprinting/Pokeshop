@@ -45,7 +45,7 @@
     "category": "magnet",
     "price": 4,
     "description": "A 3D printed Eevee Poké Ball fusion magnet. Multi-colour print with strong magnetic backing.",
-    "photo": ""
+    "photo": "https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/custom/magnet-eevee.jpeg"
   },
   {
     "slug": "magnet-pokeball",
