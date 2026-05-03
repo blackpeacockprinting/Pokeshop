@@ -2,8 +2,7 @@ var EMAILJS_PUBLIC = 'vO1JLR3TEoMLqHqhU';
 var EMAILJS_SERVICE = 'service_chzr6eo';
 var EMAILJS_TEMPLATE = 'template_w2ct94l';
 var FIREBASE_FN_URL = 'https://submitorder-mglznpa3zq-uc.a.run.app';
-var MY_PHOTOS = {
- var MY_PHOTOS = {};
+var MY_PHOTOS = {};
 (function(){
   fetch('https://firebasestorage.googleapis.com/v0/b/pokeprintadmin.firebasestorage.app/o?prefix=product-photos%2F')
     .then(function(r){ return r.json(); })
