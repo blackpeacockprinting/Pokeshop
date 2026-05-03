@@ -3,53 +3,18 @@ var EMAILJS_SERVICE = 'service_chzr6eo';
 var EMAILJS_TEMPLATE = 'template_w2ct94l';
 var FIREBASE_FN_URL = 'https://submitorder-mglznpa3zq-uc.a.run.app';
 var MY_PHOTOS = {
-  '0001-bulbasaur': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0001-bulbasaur.jpg',
-  '0002-ivysaur': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0002-ivysaur.jpg',
-  '0003-venusaur': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0003-venusaur.jpg',
-  '0004-charmander': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0004-charmander.jpg',
-  '0005-charmeleon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0005-charmeleon.jpg',
-  '0006-charizard': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0006-charizard.jpg',
-  '0006-mega-charizard-x': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0006-mega-charizard-x.jpg',
-  '0007-squirtle': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0007-squirtle.jpg',
-  '0008-wartortle': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0008-wartortle.jpg',
-  '0009-blastoise': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0009-blastoise.jpg',
-  '0025-pikachu': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0025-pikachu.jpg',
-  '0045-vileplume': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0045-vileplume.jpg',
-  '0054-psyduck': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0054-psyduck.jpg',
-  '0068-machamp': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0068-machamp.jpg',
-  '0082-magneton': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0082-magneton.jpg',
-  '0092-gastly': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0092-gastly.jpg',
-  '0094-gengar': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0094-gengar.jpg',
-  '0104-cubone': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0104-cubone.jpg',
-  '0105-marowak': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0105-marowak.jpg',
-  '0120-staryu': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0120-staryu.jpg',
-  '0123-scyther': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0123-scyther.jpg',
-  '0129-magikarp': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0129-magikarp.jpg',
-  '0130-gyarados': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0130-gyarados.jpg',
-  '0132-ditto': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0132-ditto.jpg',
-  '0133-eevee': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0133-eevee.jpg',
-  '0134-vaporeon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0134-vaporeon.jpg',
-  '0135-jolteon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0135-jolteon.jpg',
-  '0136-flareon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0136-flareon.jpg',
-  '0143-snorlax': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0143-snorlax.jpg',
-  '0145-zapdos': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0145-zapdos.jpg',
-  '0146-moltres': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0146-moltres.jpg',
-  '0150-mewtwo': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0150-mewtwo.jpg',
-  '0151-mew': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0151-mew.jpg',
-  '0172-pichu': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0172-pichu.jpg',
-  '0175-togepi': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0175-togepi.jpg',
-  '0196-espeon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0196-espeon.jpg',
-  '0197-umbreon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0197-umbreon.jpg',
-  '0250-ho-oh': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0250-ho-oh.jpg',
-  '0382-kyogre': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0382-kyogre.jpg',
-  '0383-groudon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0383-groudon.jpg',
-  '0470-leafeon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0470-leafeon.jpg',
-  '0471-glaceon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0471-glaceon.jpg',
-  '0487-giratina': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0487-giratina.jpg',
-  '0493-arceus': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0493-arceus.jpg',
-  '0700-sylveon': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0700-sylveon.jpg',
-  '0959-tinkaton': 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/product-photos/0959-tinkaton.jpg'
-};
+ var MY_PHOTOS = {};
+(function(){
+  fetch('https://firebasestorage.googleapis.com/v0/b/pokeprintadmin.firebasestorage.app/o?prefix=product-photos%2F')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      (data.items || []).forEach(function(item){
+        var slug = item.name.replace('product-photos/','').replace('.jpg','');
+        if(slug) MY_PHOTOS[slug] = 'https://storage.googleapis.com/pokeprintadmin.firebasestorage.app/' + item.name;
+      });
+      if(typeof renderProducts === 'function') renderProducts();
+    });
+})();
 
 function getPrice(g){return g<=149?8:g<=249?10:12;}
 
