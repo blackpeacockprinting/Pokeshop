@@ -271,7 +271,7 @@ function placeOrder(){
   orderXhr.setRequestHeader('Content-Type','application/json');
   orderXhr.send(JSON.stringify(orderData));
   if(typeof emailjs!=='undefined'){
-    emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{order_ref:ref,placed_at:new Date(placedAt).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'}),customer_name:info.name,customer_phone:info.phone,customer_email:info.email,items:itemsText,total_usd:total().toFixed(2)}).then(function(){renderDone(ref);}).catch(function(){renderDone(ref);});
+    emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{order_ref:ref,placed_at:new Date(placedAt).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'}),customer_name:info.name,customer_phone:info.phone,customer_email:info.email,contact_method:info.contact_method,items:itemsText,total_usd:total().toFixed(2),notes:info.shiny||'None'}).then(function(){renderDone(ref);}).catch(function(){renderDone(ref);});
   } else {
     renderDone(ref);
   }
