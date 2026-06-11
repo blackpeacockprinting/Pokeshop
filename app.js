@@ -98,17 +98,18 @@ function renderProducts(){
       var imgContent=photo?'<img src="'+photo+'" alt="'+pokeName+'" loading="lazy" onclick="openLightbox(this.src,this.alt)" style="cursor:zoom-in">'
         :'<div class="poke-placeholder">'+ballSVG(type)+'</div>';
       var safeName=pokeName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var dexNum=d.pokemon&&d.pokemon.pokedex_number?('No. '+String(d.pokemon.pokedex_number).padStart(3,'0')):'';
       return '<div class="product-card">'
-        +'<div class="product-img">'+imgContent
-        +'<div class="type-badge" style="background:'+s.bg+';color:'+s.text+';border:0.5px solid '+s.border+'">'+type+'</div>'
+        +'<div class="product-window">'+imgContent
+        +'<div class="type-dot"><span class="tdot" style="background:'+s.text+'"></span>'+type+'</div>'
+        +(dexNum?'<div class="dex">'+dexNum+'</div>':'')
         +'</div>'
-        +'<div class="product-info">'
-        +'<p class="product-name">'+pokeName+'</p>'
-        +'<p class="product-desc">'+desc+'</p>'
-        +'<div class="product-footer">'
+        +'<div class="product-strip">'
+        +'<div class="strip-l"><p class="product-name">'+pokeName+'</p><p class="product-meta">Fusion figure</p></div>'
         +'<span class="product-price">$'+price+'</span>'
+        +'</div>'
         +'<button class="add-btn" onclick="addToCart(\''+d.slug+'\','+price+',\''+safeName+'\',\''+photo+'\')">Add to cart</button>'
-        +'</div></div></div>';
+        +'</div>';
     } else {
       // Custom product card
       var p=item.data;
@@ -118,16 +119,15 @@ function renderProducts(){
         :'<div class="poke-placeholder"><div style="color:'+s.text+';font-size:11px;text-align:center;padding:8px">'+s.label+'</div></div>';
       var safeName=p.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       return '<div class="product-card">'
-        +'<div class="product-img">'+imgContent
-        +'<div class="type-badge" style="background:'+s.bg+';color:'+s.text+';border:0.5px solid '+s.border+'">'+s.label+'</div>'
+        +'<div class="product-window">'+imgContent
+        +'<div class="type-dot"><span class="tdot" style="background:'+s.text+'"></span>'+s.label+'</div>'
         +'</div>'
-        +'<div class="product-info">'
-        +'<p class="product-name">'+p.name+'</p>'
-        +'<p class="product-desc">'+p.description+'</p>'
-        +'<div class="product-footer">'
+        +'<div class="product-strip">'
+        +'<div class="strip-l"><p class="product-name">'+p.name+'</p><p class="product-meta">Custom</p></div>'
         +'<span class="product-price">$'+p.price+'</span>'
+        +'</div>'
         +'<button class="add-btn" onclick="addToCart(\''+p.slug+'\','+p.price+',\''+safeName+'\',\''+photo+'\')">Add to cart</button>'
-        +'</div></div></div>';
+        +'</div>';
     }
   }).join('');
   document.getElementById('shop-content').innerHTML='<div class="products-grid">'+html+'</div>';
@@ -176,6 +176,7 @@ function addToCart(slug,price,name,photo){
   for(var i=0;i<cart.length;i++){if(cart[i].slug===slug){existing=cart[i];break;}}
   if(existing){existing.qty++;}else{cart.push({slug:slug,price:price,name:name,photo:photo,qty:1});}
   document.getElementById('cart-count').textContent=count();
+  updateCartBar();
   flashCart();
 }
 
@@ -183,6 +184,14 @@ function flashCart(){
   var btn=document.getElementById('cart-count');
   btn.style.background='#f0d080';
   setTimeout(function(){btn.style.background='';},400);
+}
+
+function updateCartBar(){
+  var bar=document.getElementById('cartbar');
+  if(!bar)return;
+  var c=count();
+  if(c>0){bar.classList.add('show');document.getElementById('cartbar-count').textContent=c+' item'+(c!==1?'s':'')+' · $'+total().toFixed(2);}
+  else{bar.classList.remove('show');}
 }
 
 function openCart(){document.getElementById('panel').classList.add('open');document.getElementById('ov').classList.add('open');renderStep();}
@@ -226,10 +235,10 @@ function renderCart(){
 
 function chgQty(slug,d){
   for(var i=0;i<cart.length;i++){if(cart[i].slug===slug){cart[i].qty=Math.max(1,cart[i].qty+d);break;}}
-  renderCart();
+  renderCart();updateCartBar();
 }
 function rmItem(slug){
-  var nc=[];for(var i=0;i<cart.length;i++){if(cart[i].slug!==slug)nc.push(cart[i]);}cart=nc;renderCart();
+  var nc=[];for(var i=0;i<cart.length;i++){if(cart[i].slug!==slug)nc.push(cart[i]);}cart=nc;renderCart();updateCartBar();
 }
 
 function renderDetails(){
@@ -285,6 +294,7 @@ function renderDone(ref){
   document.getElementById('pfoot').innerHTML='<button class="btn-gold" onclick="resetAndClose()">Back to shop</button>';
   cart=[];info={};
   document.getElementById('cart-count').textContent='0';
+  updateCartBar();
 }
 
 function resetAndClose(){step='cart';closeCart();}
