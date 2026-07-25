@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Peacock Printing</title>
+<meta name="description" content="Hand-assembled multi-colour 3D printed Poké Ball fusion figures. Designs by N3D Melbourne, printed under commercial licence. Local pickup.">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Black Peacock Printing">
+<meta property="og:title" content="Black Peacock Printing">
+<meta property="og:description" content="Hand-assembled multi-colour 3D printed Poké Ball fusion figures. The shop is being rebuilt — orders still happen by message.">
+<meta property="og:url" content="https://blackpeacockprinting.com/">
+<meta property="og:image" content="https://blackpeacockprinting.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0B0C">
+
+<link rel="canonical" href="https://blackpeacockprinting.com/">
+<link rel="icon" href="favicon.ico" sizes="any">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --lacquer:#0B0B0C;
+  --void:#050506;
+  --plate:#F7F5F1;
+  --plate-edge:#E4DFD6;
+  --ink:#17171A;
+  --muted:#6E6A63;
+  --gold:#C9A84C;
+
+  --display:'Bodoni Moda',Didot,'Times New Roman',serif;
+  --body:'Instrument Sans',system-ui,-apple-system,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--lacquer);
+  background-image:radial-gradient(ellipse 90% 70% at 50% 42%,#131315 0%,var(--lacquer) 55%,var(--void) 100%);
+  color:var(--plate);
+  font-family:var(--body);
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1.25rem 1.5rem;
+  gap:1.75rem;
+}
+
+/* ---- language toggle ---- */
+.langbar{
+  position:absolute;
+  top:1.25rem;
+  right:1.25rem;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.lang{
+  background:none;
+  border:0;
+  border-bottom:1px solid transparent;
+  color:#5C5A56;
+  font-family:var(--body);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:2px 1px;
+  cursor:pointer;
+}
+.lang[aria-pressed="true"]{color:var(--plate);border-bottom-color:#5C5A56}
+.lang:focus-visible{outline:2px solid var(--plate);outline-offset:3px}
+.langbar span{color:#3A3A3C;font-size:11px}
+@media (hover:hover){ .lang:hover{color:var(--plate)} }
+
+/* ---- the plate ---- */
+.plate{
+  position:relative;
+  width:100%;
+  max-width:34rem;
+  background:var(--plate);
+  border-top:2px solid var(--gold);
+  box-shadow:0 1px 0 rgba(255,255,255,.04),0 30px 70px -20px rgba(0,0,0,.85);
+  padding:3.25rem 2.25rem 2.75rem;
+  text-align:center;
+}
+.plate::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:1px;
+  background:var(--plate-edge);
+}
+
+.mark{
+  font-family:var(--display);
+  font-optical-sizing:auto;
+  font-weight:500;
+  font-size:clamp(1.35rem,6.2vw,1.85rem);
+  line-height:1.15;
+  letter-spacing:.22em;
+  text-indent:.22em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.rule{
+  width:2.25rem;
+  height:1px;
+  background:var(--gold);
+  margin:1.5rem auto;
+}
+
+.status{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(1.65rem,8vw,2.4rem);
+  line-height:1.1;
+  color:var(--ink);
+  margin-bottom:1.1rem;
+}
+.lede{
+  font-size:15px;
+  line-height:1.6;
+  color:#3E3C39;
+  max-width:26rem;
+  margin:0 auto;
+}
+
+.contact{
+  margin-top:2rem;
+  padding-top:1.75rem;
+  border-top:1px solid var(--plate-edge);
+}
+.label{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.6rem;
+}
+.handle{
+  font-family:var(--display);
+  font-size:clamp(1.05rem,4.6vw,1.3rem);
+  font-weight:500;
+  color:var(--ink);
+  text-decoration:none;
+  border-bottom:1px solid #C4BEB3;
+  padding-bottom:2px;
+  display:inline-block;
+}
+.handle:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+@media (hover:hover){ .handle:hover{border-bottom-color:var(--ink)} }
+
+.terms{
+  margin-top:1.5rem;
+  font-size:12.5px;
+  line-height:1.55;
+  color:var(--muted);
+}
+
+/* ---- below the plate ---- */
+.credit{
+  font-size:12px;
+  line-height:1.6;
+  color:#77746E;
+  text-align:center;
+  max-width:30rem;
+}
+footer{
+  font-size:11px;
+  line-height:1.6;
+  color:#4A4844;
+  text-align:center;
+  max-width:32rem;
+}
+
+[hidden]{display:none !important}
+
+/* ---- entrance ---- */
+@media (prefers-reduced-motion:no-preference){
+  .plate{
+    animation:rise .65s cubic-bezier(.16,.84,.44,1) both;
+  }
+  .plate{border-top-color:transparent}
+  .plate::before{
+    content:"";
+    position:absolute;
+    top:-2px;left:0;right:0;
+    height:2px;
+    background:var(--gold);
+    transform:scaleX(0);
+    transform-origin:center;
+    animation:draw .8s cubic-bezier(.22,.9,.3,1) .35s both;
+  }
+  .credit,footer{animation:fade .6s ease-out .8s both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes draw{to{transform:scaleX(1)}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+}
+</style>
+</head>
+
+<body>
+
+<div class="langbar">
+  <button class="lang" id="btn-en" type="button" aria-pressed="true">EN</button>
+  <span aria-hidden="true">/</span>
+  <button class="lang" id="btn-de" type="button" aria-pressed="false">DE</button>
+</div>
+
+<main class="plate">
+  <p class="mark">Black Peacock<br>Printing</p>
+  <div class="rule" aria-hidden="true"></div>
+
+  <!-- English -->
+  <div id="en" lang="en">
+    <h1 class="status">Shop rebuilding</h1>
+    <p class="lede">The catalogue is being rebuilt from the ground up. Orders still work the way they always have — send me your list and I'll confirm what you want and when it's ready.</p>
+    <div class="contact">
+      <p class="label">Message me</p>
+      <a class="handle" href="YOUR_CONTACT_LINK">YOUR_CONTACT_HERE</a>
+      <p class="terms">Local pickup. Cash, Zelle or PayPal on collection.</p>
+    </div>
+  </div>
+
+  <!-- Deutsch -->
+  <div id="de" lang="de" hidden>
+    <h1 class="status">Shop im Umbau</h1>
+    <p class="lede">Der Katalog wird gerade neu aufgebaut. Bestellungen laufen wie immer — schick mir deine Liste, und ich bestätige dir, was du möchtest und wann es fertig ist.</p>
+    <div class="contact">
+      <p class="label">Schreib mir</p>
+      <a class="handle" href="YOUR_CONTACT_LINK">YOUR_CONTACT_HERE</a>
+      <p class="terms">Abholung vor Ort. Barzahlung, PayPal oder Überweisung bei Abholung.</p>
+    </div>
+  </div>
+</main>
+
+<p class="credit">
+  <span data-en>Designs by N3D Melbourne. Printed in pieces and hand-assembled under commercial licence.</span>
+  <span data-de hidden>Designs von N3D Melbourne. In Einzelteilen gedruckt und von Hand montiert unter Handelslizenz.</span>
+</p>
+
+<footer>
+  <span data-en>Black Peacock Printing is an independent print and assembly service. All figure designs are the property of N3D Melbourne and are produced under an N3D Commercial licence. Not affiliated with Nintendo, Game Freak or The Pokémon Company.</span>
+  <span data-de hidden>Black Peacock Printing ist ein unabhängiger Druck- und Montageservice. Alle Figurendesigns sind Eigentum von N3D Melbourne und werden unter einer N3D-Handelslizenz hergestellt. Keine Verbindung zu Nintendo, Game Freak oder The Pokémon Company.</span>
+</footer>
+
+<script>
+(function(){
+  var en = document.getElementById('en');
+  var de = document.getElementById('de');
+  var bEn = document.getElementById('btn-en');
+  var bDe = document.getElementById('btn-de');
+
+  function set(lang){
+    var german = lang === 'de';
+    en.hidden = german;
+    de.hidden = !german;
+    bEn.setAttribute('aria-pressed', String(!german));
+    bDe.setAttribute('aria-pressed', String(german));
+    document.documentElement.lang = german ? 'de' : 'en';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-en]'), function(el){ el.hidden = german; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-de]'), function(el){ el.hidden = !german; });
+    try { localStorage.setItem('bpp-lang', lang); } catch(e){}
+  }
+
+  bEn.addEventListener('click', function(){ set('en'); });
+  bDe.addEventListener('click', function(){ set('de'); });
+
+  var saved = null;
+  try { saved = localStorage.getItem('bpp-lang'); } catch(e){}
+  if (saved === 'de' || saved === 'en') { set(saved); }
+  else if ((navigator.language || '').toLowerCase().indexOf('de') === 0) { set('de'); }
+})();
+</script>
+
+</body>
+</html>
