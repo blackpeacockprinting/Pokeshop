@@ -11,19 +11,37 @@ jobs:
     steps:
       - name: Ping Supabase
         env:
-          URL: ${{ secrets.SUPABASE_URL }}
-          KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          RAW_URL: ${{ secrets.SUPABASE_URL }}
+          RAW_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
+          URL=$(printf '%s' "$RAW_URL" | tr -d '[:space:]')
+          KEY=$(printf '%s' "$RAW_KEY" | tr -d '[:space:]')
+          URL=${URL%/}
+          URL=${URL%/rest/v1}
+          URL=${URL%/}
+
+          echo "URL length: ${#URL}"
+          echo "KEY length: ${#KEY}"
+
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "A secret came through empty."
+            echo "Names must be exactly SUPABASE_URL and SUPABASE_ANON_KEY."
+            exit 1
+          fi
+
+          case "$URL" in
+            https://*.supabase.co) echo "URL shape: ok" ;;
+            *) echo "URL shape: wrong — expected https://xxxx.supabase.co" ;;
+          esac
+
           code=$(curl -sS -o /tmp/body -w '%{http_code}' \
             -X POST "$URL/rest/v1/rpc/ping" \
             -H "apikey: $KEY" \
             -H "Authorization: Bearer $KEY" \
             -H "Content-Type: application/json" \
             -d '{}')
+
           echo "HTTP $code"
           cat /tmp/body
           echo
-          if [ "$code" != "200" ]; then
-            echo "Ping failed — database may pause."
-            exit 1
-          fi
+          [ "$code" = "200" ] || { echo "Ping failed."; exit 1; }
