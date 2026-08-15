@@ -85,6 +85,66 @@ font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--plate);
 }
 .cartpill b{color:var(--gold);font-variant-numeric:tabular-nums}
 
+/* ---------------- intro splash ---------------- */
+.intro-splash{
+position:fixed;inset:0;z-index:200;background:var(--lacquer);
+display:flex;align-items:center;justify-content:center;
+transition:opacity .55s ease;
+}
+.intro-splash.hide{opacity:0;pointer-events:none}
+.intro-svg circle,.intro-svg path{stroke:var(--gold);fill:none}
+.intro-circle{stroke-dasharray:239;stroke-dashoffset:239;animation:bpp-draw 1s ease forwards .1s}
+.intro-line{stroke-dasharray:76;stroke-dashoffset:76;animation:bpp-draw .5s ease forwards .95s}
+.intro-dot{stroke-dasharray:44;stroke-dashoffset:44;opacity:0;animation:bpp-draw .4s ease forwards 1.25s,bpp-fade .1s ease forwards 1.25s}
+@keyframes bpp-draw{to{stroke-dashoffset:0}}
+@keyframes bpp-fade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+.intro-circle,.intro-line,.intro-dot{animation:none;stroke-dashoffset:0;opacity:1}
+}
+
+/* ---------------- landing ---------------- */
+.landing{
+position:relative;min-height:92dvh;min-height:92vh;
+display:flex;align-items:center;justify-content:center;
+overflow:hidden;margin-top:-1px;
+}
+.landing-mosaic{
+position:absolute;inset:0;
+display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:1fr;
+opacity:.5;filter:saturate(.55) brightness(.5);
+}
+.landing-mosaic img{width:100%;height:100%;object-fit:cover;display:block}
+.landing-scrim{
+position:absolute;inset:0;
+background:
+radial-gradient(ellipse 75% 60% at 50% 42%,rgba(11,11,12,.3) 0%,var(--lacquer) 78%),
+linear-gradient(180deg,rgba(11,11,12,.35) 0%,var(--lacquer) 94%);
+}
+.landing-content{position:relative;z-index:2;text-align:center;padding:100px 24px 60px;max-width:640px}
+.landing-mark{
+display:block;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.34em;
+text-transform:uppercase;color:var(--plate);margin-bottom:24px;
+}
+.landing-rule{width:40px;height:1px;background:var(--gold);margin:0 auto 28px}
+.landing-headline{
+font-family:var(--display);font-style:italic;font-weight:400;
+font-size:clamp(2.1rem,7.5vw,3.5rem);line-height:1.1;color:var(--plate);margin-bottom:18px;
+}
+.landing-sub{font-size:15px;line-height:1.7;color:#B7B2A8;margin:0 auto 36px;max-width:30rem}
+.landing-cta{
+display:inline-block;background:var(--gold);color:var(--ink);border:0;padding:16px 36px;
+font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
+}
+.landing-scrolldown{
+margin-top:50px;color:#6E6A63;font-size:20px;line-height:1;
+}
+@media (prefers-reduced-motion:no-preference){
+.landing-scrolldown{animation:bpp-bob 2.4s ease-in-out infinite}
+}
+@keyframes bpp-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+#catalogue{scroll-margin-top:78px}
+
 /* ---------------- intro ---------------- */
 .intro{max-width:640px;margin:26px auto 8px;padding:0 18px;text-align:center}
 .intro h1{
@@ -201,10 +261,19 @@ footer a{color:#7C7871}
 
 @media (prefers-reduced-motion:no-preference){
 .card,.cartbar{transition:transform .15s ease}
+html{scroll-behavior:smooth}
 }
 </style>
 </head>
 <body>
+
+<div id="introSplash" class="intro-splash" aria-hidden="true">
+<svg class="intro-svg" width="84" height="84" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+<circle class="intro-circle" cx="42" cy="42" r="38" stroke-width="1.5"/>
+<path class="intro-line" d="M4 42H80" stroke-width="1.5"/>
+<circle class="intro-dot" cx="42" cy="42" r="7" stroke-width="1.5"/>
+</svg>
+</div>
 
 <header class="top">
 <span class="mark">Black Peacock</span>
@@ -217,7 +286,20 @@ footer a{color:#7C7871}
 <button class="cartpill" id="cartpill" hidden></button>
 </header>
 
-<div class="intro">
+<section class="landing" id="landing">
+<div class="landing-mosaic" id="landingMosaic"></div>
+<div class="landing-scrim"></div>
+<div class="landing-content">
+<span class="landing-mark">Black Peacock</span>
+<div class="landing-rule"></div>
+<h1 class="landing-headline" data-t="landingHeadline"></h1>
+<p class="landing-sub" data-t="landingSub"></p>
+<a class="landing-cta" href="#catalogue" data-t="landingCta"></a>
+<div class="landing-scrolldown" aria-hidden="true">↓</div>
+</div>
+</section>
+
+<div class="intro" id="catalogue">
 <h1 data-t="introTitle"></h1>
 <p data-t="introBody"></p>
 </div>
@@ -253,6 +335,9 @@ const SUPABASE_KEY = 'sb_publishable_oYFZJgovrJlTHhZIliUhiw_yGtUo7eg';
 
 const T = {
 en:{
+landingHeadline:'Pokémon, fused into their Poké Ball.',
+landingSub:'Hand-assembled, multi-colour 3D prints — one of a kind, made to order.',
+landingCta:'Browse the catalogue',
 introTitle:'The catalogue',
 introBody:'Hand-assembled, multi-colour 3D prints. Pick what you like, I’ll confirm and let you know when it’s ready — local pickup only.',
 searchPh:'Search charizard, sylveon, 006…',
@@ -283,6 +368,9 @@ noMatch:q=>`Nothing matches “${q}”.`,
 loadError:'Could not load the catalogue. Refresh, or email orders@blackpeacockprinting.com.'
 },
 de:{
+landingHeadline:'Pokémon, verschmolzen mit ihrem Poké Ball.',
+landingSub:'Von Hand montierte, mehrfarbige 3D-Drucke — einzigartig, auf Bestellung gefertigt.',
+landingCta:'Katalog ansehen',
 introTitle:'Der Katalog',
 introBody:'Von Hand montierte, mehrfarbige 3D-Drucke. Wähle, was dir gefällt — ich bestätige und sage dir, wann es fertig ist. Nur Abholung vor Ort.',
 searchPh:'Suche charizard, sylveon, 006…',
@@ -357,6 +445,9 @@ document.getElementById('q').placeholder = t().searchPh;
 document.getElementById('grid').querySelectorAll('h1,p').length; // no-op guard
 document.querySelector('.intro h1').textContent = t().introTitle;
 document.querySelector('.intro p').textContent = t().introBody;
+document.querySelector('.landing-headline').textContent = t().landingHeadline;
+document.querySelector('.landing-sub').textContent = t().landingSub;
+document.querySelector('.landing-cta').textContent = t().landingCta;
 renderGrid();
 renderCartBar();
 }
@@ -379,6 +470,13 @@ const photoSet = new Set(manifest);
 settings = cat.settings || {};
 currency = String(settings.default_currency || 'USD').trim();
 designs = (cat.designs || []).filter(d => photoSet.has(d.slug));
+}
+
+function renderLandingMosaic(){
+const mosaic = document.getElementById('landingMosaic');
+if (!mosaic || !designs.length) return;
+const shuffled = designs.map(d => [Math.random(), d]).sort((a,b) => a[0]-b[0]).map(x => x[1]).slice(0, 18);
+mosaic.innerHTML = shuffled.map(d => `<img src="photos/${esc(d.slug)}.webp" alt="" loading="lazy" decoding="async">`).join('');
 }
 
 function matches(d, q){
@@ -605,6 +703,15 @@ renderCheckout(t().genericError);
 document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
 document.getElementById('btn-de').addEventListener('click', () => setLang('de'));
 
+(function dismissIntro(){
+const introEl = document.getElementById('introSplash');
+if (!introEl) return;
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion){ introEl.remove(); return; }
+setTimeout(() => { introEl.classList.add('hide'); }, 1650);
+introEl.addEventListener('transitionend', () => introEl.remove());
+})();
+
 (async function boot(){
 loadCart();
 
@@ -620,12 +727,16 @@ document.querySelectorAll('[data-en]').forEach(el => el.hidden = lang!=='en');
 document.querySelectorAll('[data-de]').forEach(el => el.hidden = lang!=='de');
 document.querySelector('.intro h1').textContent = t().introTitle;
 document.querySelector('.intro p').textContent = t().introBody;
+document.querySelector('.landing-headline').textContent = t().landingHeadline;
+document.querySelector('.landing-sub').textContent = t().landingSub;
+document.querySelector('.landing-cta').textContent = t().landingCta;
 document.getElementById('q').placeholder = t().searchPh;
 
 try {
 await loadCatalogue();
 renderGrid();
 renderCartBar();
+renderLandingMosaic();
 } catch (e) {
 document.getElementById('grid').innerHTML = '';
 const emptyEl = document.getElementById('empty');
@@ -635,7 +746,8 @@ emptyEl.textContent = t().loadError;
 })();
 
 })();
-
 </script>
 </body>
 </html>
+
+
