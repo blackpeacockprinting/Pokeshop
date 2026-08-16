@@ -264,6 +264,8 @@ width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#EDEAE3;
 font-family:var(--display);font-weight:500;font-size:14px;line-height:1.25;color:var(--ink);
 }
 .card .price{font-size:13px;font-weight:700;color:#8A6D1F;font-variant-numeric:tabular-nums}
+.card .soon{font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8A6D1F;opacity:.7}
+.card .ph-placeholder{object-fit:contain;padding:14%;box-sizing:border-box;background:#EDEAE3}
 .card .addrow{margin-top:auto;padding-top:6px}
 .card button.add{
 width:100%;background:var(--ink);color:#fff;border:0;padding:9px;
@@ -464,7 +466,8 @@ needContact:'Add an email or phone number so I can reach you.',
 genericError:'Something went wrong placing that. Try again, or email orders@blackpeacockprinting.com directly.',
 emptyCatalogue:'Nothing to show right now — check back soon, or email me directly.',
 noMatch:q=>`Nothing matches “${q}”.`,
-loadError:'Could not load the catalogue. Refresh, or email orders@blackpeacockprinting.com.'
+loadError:'Could not load the catalogue. Refresh, or email orders@blackpeacockprinting.com.',
+photoSoon:'Photo coming soon'
 },
 de:{
 landingKicker:'Von Hand gefertigt · Auf Bestellung',
@@ -499,7 +502,8 @@ needContact:'Bitte gib eine E-Mail-Adresse oder Telefonnummer an.',
 genericError:'Da ist etwas schiefgelaufen. Versuch es noch einmal oder schreib direkt an orders@blackpeacockprinting.com.',
 emptyCatalogue:'Gerade ist nichts verfügbar — schau bald wieder vorbei oder schreib mir direkt.',
 noMatch:q=>`Nichts passt zu “${q}”.`,
-loadError:'Der Katalog konnte nicht geladen werden. Aktualisiere die Seite oder schreib an orders@blackpeacockprinting.com.'
+loadError:'Der Katalog konnte nicht geladen werden. Aktualisiere die Seite oder schreib an orders@blackpeacockprinting.com.',
+photoSoon:'Foto folgt in Kürze'
 }
 };
 
@@ -519,10 +523,14 @@ return String(cur||'EUR').trim().toUpperCase() === 'USD'
 /* ---------------- state ---------------- */
 let lang = 'en';
 let designs = [];      // full catalogue (active + entitled, from the RPC)
+let photoSet = new Set(); // slugs that have a real product photo
 let settings = null;
 let query = '';
 let cart = {};          // slug -> qty
 let currency = 'USD';
+const PLACEHOLDER_IMG = 'data:image/svg+xml,' + encodeURIComponent(
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#EDEAE3"/><circle cx="100" cy="100" r="46" fill="none" stroke="#C9A84C" stroke-width="2.5"/><line x1="12" y1="100" x2="188" y2="100" stroke="#C9A84C" stroke-width="2.5"/><circle cx="100" cy="100" r="9" fill="none" stroke="#C9A84C" stroke-width="2.5"/></svg>'
+);
 
 function t(){ return T[lang]; }
 
@@ -568,11 +576,11 @@ fetch('photos/manifest.json')
 if (!catRes.ok) throw new Error('catalogue ' + catRes.status);
 const cat = await catRes.json();
 const manifest = manRes.ok ? await manRes.json() : [];
-const photoSet = new Set(manifest);
+photoSet = new Set(manifest);
 
 settings = cat.settings || {};
 currency = String(settings.default_currency || 'USD').trim();
-designs = (cat.designs || []).filter(d => photoSet.has(d.slug));
+designs = cat.designs || [];
 }
 
 function initLandingParallax(){
@@ -638,12 +646,15 @@ emptyEl.hidden = true;
 grid.innerHTML = list.map(d => {
 const name = lang === 'de' && d.name_de ? d.name_de : d.name_en;
 const qty = cart[d.slug] || 0;
+const hasPhoto = photoSet.has(d.slug);
+const imgSrc = hasPhoto ? `photos/${esc(d.slug)}.webp` : PLACEHOLDER_IMG;
 return `
 <div class="card" data-slug="${esc(d.slug)}">
-<img class="ph" src="photos/${esc(d.slug)}.webp" alt="" loading="lazy" decoding="async">
+<img class="ph${hasPhoto ? '' : ' ph-placeholder'}" src="${imgSrc}" alt="" loading="lazy" decoding="async">
 <div class="body">
 <div class="name">${esc(name)}</div>
 <div class="price">${money(d.price_eur, currency)}</div>
+${hasPhoto ? '' : `<div class="soon">${esc(t().photoSoon)}</div>`}
 <div class="addrow">
 ${qty > 0 ? `
 <div class="stepper">
@@ -880,4 +891,3 @@ emptyEl.textContent = t().loadError;
 </script>
 </body>
 </html>
-
