@@ -102,82 +102,131 @@ transition:opacity .55s ease;
 .intro-circle,.intro-line,.intro-dot{animation:none;stroke-dashoffset:0;opacity:1}
 }
 
-/* ---------------- landing ---------------- */
+/* ---------------- landing (Aurelis-style hero) ---------------- */
 .landing{
-position:relative;min-height:92dvh;min-height:92vh;
-display:flex;align-items:center;justify-content:center;
+position:relative;min-height:100dvh;min-height:100svh;
 overflow:hidden;margin-top:-1px;
+display:flex;align-items:center;justify-content:center;
+isolation:isolate;
 }
-.landing-mosaic{
-position:absolute;inset:0;
-display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:1fr;
-opacity:.5;filter:saturate(.55) brightness(.5);
-}
-.landing-mosaic img{width:100%;height:100%;object-fit:cover;display:block}
-.landing-scrim{
-position:absolute;inset:0;
+.landing:before{
+content:"";position:absolute;inset:-20%;
 background:
-radial-gradient(ellipse 75% 60% at 50% 42%,rgba(11,11,12,.3) 0%,var(--lacquer) 78%),
-linear-gradient(180deg,rgba(11,11,12,.35) 0%,var(--lacquer) 94%);
-}
-.landing-content{position:relative;z-index:2;text-align:center;padding:100px 24px 60px;max-width:640px}
-.landing-mark{
-display:block;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.34em;
-text-transform:uppercase;color:var(--plate);margin-bottom:24px;
-}
-.landing-rule{width:40px;height:1px;background:var(--gold);margin:0 auto 28px}
-.landing-headline{
-font-family:var(--display);font-style:italic;font-weight:400;
-font-size:clamp(2.1rem,7.5vw,3.5rem);line-height:1.1;color:var(--plate);margin-bottom:18px;
-}
-.landing-sub{font-size:15px;line-height:1.7;color:#B7B2A8;margin:0 auto 36px;max-width:30rem}
-.landing-cta{
-display:inline-block;background:var(--gold);color:var(--ink);border:0;padding:16px 36px;
-font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
-}
-.landing-scrolldown{
-margin-top:50px;color:#6E6A63;font-size:20px;line-height:1;
+radial-gradient(circle at 50% 45%,rgba(255,196,75,.10),transparent 28%),
+radial-gradient(circle at 20% 70%,rgba(255,255,255,.035),transparent 24%);
+filter:blur(12px);pointer-events:none;
 }
 @media (prefers-reduced-motion:no-preference){
-.landing-scrolldown{animation:bpp-bob 2.4s ease-in-out infinite}
+.landing:before{animation:al-ambient 9s ease-in-out infinite alternate}
 }
-@keyframes bpp-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@keyframes al-ambient{from{transform:scale(1)}to{transform:scale(1.08)}}
 
-/* ---------------- landing fx ---------------- */
+.al-noise{
+position:absolute;inset:0;opacity:.035;pointer-events:none;mix-blend-mode:screen;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+
 .landing-sparkles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.spark{
+.sparh{
 position:absolute;width:2px;height:2px;border-radius:50%;
 background:#F1C56D;box-shadow:0 0 8px rgba(201,168,76,.9);
 opacity:0;animation:bpp-twinkle var(--d,4s) var(--sd,0s) ease-in-out infinite;
 }
 @keyframes bpp-twinkle{0%,100%{opacity:0;transform:scale(.5)}45%{opacity:.85;transform:scale(1.3)}60%{opacity:.15;transform:scale(.7)}}
 
-.landing-emblem{position:relative;z-index:2;width:clamp(110px,24vw,170px);margin:0 auto 18px}
-.landing-emblem-glow{
-position:absolute;inset:-30%;border-radius:50%;
-background:radial-gradient(circle,rgba(201,168,76,.28),transparent 62%);
-filter:blur(20px);
+.al-hero{
+position:relative;z-index:2;width:min(1180px,94vw);
+display:flex;flex-direction:column;align-items:center;
+padding:96px 24px 76px;
 }
-.landing-emblem img{position:relative;width:100%;display:block;mix-blend-mode:screen;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}
+.al-copy{text-align:center;max-width:520px}
+.al-kicker{
+display:inline-flex;align-items:center;gap:10px;color:#FFF0BF;
+font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+margin-bottom:16px;opacity:0;
+}
+.al-kicker:before{content:"";width:30px;height:1px;background:var(--gold)}
+.landing-headline{
+font-family:var(--display);font-weight:400;
+font-size:clamp(2.3rem,8vw,3.8rem);line-height:1.02;letter-spacing:-.01em;
+color:var(--plate);margin-bottom:20px;opacity:0;
+}
+.landing-headline em{color:var(--gold);font-style:italic}
+.landing-sub{font-size:14px;line-height:1.7;color:#9A968D;max-width:26rem;margin:0 auto 30px;opacity:0}
+.landing-cta{
+display:inline-flex;align-items:center;gap:12px;
+background:none;border:1px solid rgba(255,220,150,.35);color:var(--plate);
+padding:14px 20px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+text-decoration:none;opacity:0;transition:.35s;
+}
+.landing-cta:hover{border-color:rgba(255,220,150,.75);transform:translateY(-2px)}
+.landing-cta i{display:block;width:22px;height:22px;border-radius:50%;background:var(--gold);position:relative;flex-shrink:0}
+.landing-cta i:after{content:"";position:absolute;width:6px;height:6px;border-right:1px solid var(--ink);border-top:1px solid var(--ink);transform:rotate(45deg);top:8px;left:6px}
 
-.landing-mark,.landing-rule,.landing-headline,.landing-sub,.landing-cta{opacity:0}
-@media (prefers-reduced-motion:no-preference){
-.landing-emblem{animation:bpp-float 6s ease-in-out infinite}
-.landing-emblem-glow{animation:bpp-glow 4s ease-in-out infinite alternate}
-.landing-mark,.landing-rule,.landing-headline,.landing-sub,.landing-cta{animation:bpp-rise .9s ease forwards}
-.landing-mark{animation-delay:.15s}
-.landing-rule{animation-delay:.28s}
-.landing-headline{animation-delay:.4s}
-.landing-sub{animation-delay:.58s}
-.landing-cta{animation-delay:.76s}
+.al-art-float{position:relative;z-index:2;width:min(300px,58vw);margin-top:32px}
+.al-art-wrap{position:relative;width:100%;aspect-ratio:1/1;transform-style:preserve-3d;transition:transform .3s ease}
+.al-art-wrap:before{
+content:"";position:absolute;inset:12%;border-radius:50%;
+background:radial-gradient(circle,rgba(255,184,59,.16),transparent 57%);
+filter:blur(28px);transform:translateZ(-100px);
 }
-@keyframes bpp-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@keyframes bpp-glow{from{opacity:.55;transform:scale(.94)}to{opacity:1;transform:scale(1.08)}}
+.al-art{
+position:relative;width:100%;height:100%;object-fit:contain;
+filter:drop-shadow(0 24px 22px rgba(0,0,0,.65)) drop-shadow(0 0 20px rgba(221,166,62,.12));
+mix-blend-mode:screen;user-select:none;-webkit-user-drag:none;display:block;
+}
+.al-sweep{
+position:absolute;z-index:4;left:-15%;top:-15%;width:16%;height:130%;
+background:linear-gradient(90deg,transparent,rgba(255,227,166,.28),transparent);
+transform:rotate(18deg);filter:blur(10px);mix-blend-mode:screen;
+}
+.al-orbit{
+position:absolute;inset:8%;border:1px solid rgba(255,210,120,.08);border-radius:50%;transform:rotate(-18deg);pointer-events:none;
+}
+.al-orbit:after{
+content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:#f5ca67;
+box-shadow:0 0 18px 5px rgba(245,202,103,.3);top:4%;left:68%;
+}
+
+.landing-scrolldown{
+position:absolute;z-index:3;bottom:26px;left:0;right:0;margin:0 auto;width:fit-content;
+display:flex;flex-direction:column;align-items:center;gap:11px;
+color:#666;font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:0;
+}
+.landing-scrolldown span:first-child{width:1px;height:32px;background:linear-gradient(var(--gold),transparent)}
+
+@media (prefers-reduced-motion:no-preference){
+.al-art-float{animation:al-float 6s ease-in-out infinite}
+.al-art-wrap:before{animation:al-glow 4s ease-in-out infinite alternate}
+.al-sweep{animation:al-sweep 5.5s 1.8s infinite}
+.al-orbit:after{animation:al-orbit 9s linear infinite}
+.al-kicker,.landing-headline,.landing-sub,.landing-cta{animation:bpp-rise .9s ease forwards}
+.al-kicker{animation-delay:.15s}
+.landing-headline{animation-delay:.32s}
+.landing-sub{animation-delay:.5s}
+.landing-cta{animation-delay:.68s}
+.landing-scrolldown{animation:bpp-rise .9s ease forwards .9s}
+.landing-scrolldown span:first-child{animation:al-scrollline 1.8s ease-in-out infinite}
+}
+@keyframes al-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes al-glow{from{opacity:.55;transform:translateZ(-100px) scale(.94)}to{opacity:1;transform:translateZ(-100px) scale(1.06)}}
+@keyframes al-sweep{0%{left:-25%;opacity:0}12%{opacity:1}42%{left:110%;opacity:.7}100%{left:130%;opacity:0}}
+@keyframes al-orbit{to{transform:rotate(360deg)}}
+@keyframes al-scrollline{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
 @keyframes bpp-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
 @media (prefers-reduced-motion:reduce){
-.landing-mark,.landing-rule,.landing-headline,.landing-sub,.landing-cta{opacity:1}
+.al-kicker,.landing-headline,.landing-sub,.landing-cta,.landing-scrolldown{opacity:1}
 .spark{display:none}
+.landing:before{display:none}
+}
+
+@media (min-width:760px){
+.al-hero{flex-direction:row;justify-content:space-between;gap:40px;padding:70px 48px;text-align:left}
+.al-copy{text-align:left}
+.al-kicker{justify-content:flex-start}
+.al-art-float{width:min(420px,40vw);margin-top:0}
+.landing-scrolldown{bottom:30px}
 }
 
 #catalogue{scroll-margin-top:78px}
@@ -324,20 +373,26 @@ html{scroll-behavior:smooth}
 </header>
 
 <section class="landing" id="landing">
-<div class="landing-mosaic" id="landingMosaic"></div>
-<div class="landing-scrim"></div>
+<div class="al-noise" aria-hidden="true"></div>
 <div class="landing-sparkles" id="landingSparkles" aria-hidden="true"></div>
-<div class="landing-content">
-<div class="landing-emblem">
-<div class="landing-emblem-glow"></div>
-<img src="/assets/peacock.webp" alt="" loading="eager" decoding="async">
-</div>
-<span class="landing-mark">Black Peacock</span>
-<div class="landing-rule"></div>
-<h1 class="landing-headline" data-t="landingHeadline"></h1>
+<div class="al-hero">
+<div class="al-copy">
+<div class="al-kicker" data-t="landingKicker"></div>
+<h1 class="landing-headline"></h1>
 <p class="landing-sub" data-t="landingSub"></p>
-<a class="landing-cta" href="#catalogue" data-t="landingCta"></a>
-<div class="landing-scrolldown" aria-hidden="true">↓</div>
+<a class="landing-cta" href="#catalogue"><span class="landing-cta-text" data-t="landingCta"></span><i></i></a>
+</div>
+<div class="al-art-float">
+<div class="al-art-wrap" id="landingArtWrap">
+<div class="al-orbit"></div>
+<img class="al-art" src="/assets/peacock.webp" alt="Black and gold peacock emblem" loading="eager" decoding="async">
+<div class="al-sweep"></div>
+</div>
+</div>
+</div>
+<div class="landing-scrolldown" aria-hidden="true">
+<span></span>
+<span data-t="landingScroll"></span>
 </div>
 </section>
 
@@ -377,9 +432,11 @@ const SUPABASE_KEY = 'sb_publishable_oYFZJgovrJlTHhZIliUhiw_yGtUo7eg';
 
 const T = {
 en:{
-landingHeadline:'Pokémon, fused into their Poké Ball.',
+landingKicker:'Hand-assembled · Made to order',
+landingHeadline:'Pokémon, fused<br><em>into their Poké Ball.</em>',
 landingSub:'Hand-assembled, multi-colour 3D prints — one of a kind, made to order.',
 landingCta:'Browse the catalogue',
+landingScroll:'Scroll to explore',
 introTitle:'The catalogue',
 introBody:'Hand-assembled, multi-colour 3D prints. Pick what you like, I’ll confirm and let you know when it’s ready — local pickup only.',
 searchPh:'Search charizard, sylveon, 006…',
@@ -410,9 +467,11 @@ noMatch:q=>`Nothing matches “${q}”.`,
 loadError:'Could not load the catalogue. Refresh, or email orders@blackpeacockprinting.com.'
 },
 de:{
-landingHeadline:'Pokémon, verschmolzen mit ihrem Poké Ball.',
+landingKicker:'Von Hand gefertigt · Auf Bestellung',
+landingHeadline:'Pokémon, verschmolzen<br><em>mit ihrem Poké Ball.</em>',
 landingSub:'Von Hand montierte, mehrfarbige 3D-Drucke — einzigartig, auf Bestellung gefertigt.',
 landingCta:'Katalog ansehen',
+landingScroll:'Zum Entdecken scrollen',
 introTitle:'Der Katalog',
 introBody:'Von Hand montierte, mehrfarbige 3D-Drucke. Wähle, was dir gefällt — ich bestätige und sage dir, wann es fertig ist. Nur Abholung vor Ort.',
 searchPh:'Suche charizard, sylveon, 006…',
@@ -487,9 +546,11 @@ document.getElementById('q').placeholder = t().searchPh;
 document.getElementById('grid').querySelectorAll('h1,p').length; // no-op guard
 document.querySelector('.intro h1').textContent = t().introTitle;
 document.querySelector('.intro p').textContent = t().introBody;
-document.querySelector('.landing-headline').textContent = t().landingHeadline;
+document.querySelector('.al-kicker').textContent = t().landingKicker;
+document.querySelector('.landing-headline').innerHTML = t().landingHeadline;
 document.querySelector('.landing-sub').textContent = t().landingSub;
-document.querySelector('.landing-cta').textContent = t().landingCta;
+document.querySelector('.landing-cta-text').textContent = t().landingCta;
+document.querySelector('.landing-scrolldown span:last-child').textContent = t().landingScroll;
 renderGrid();
 renderCartBar();
 }
@@ -514,11 +575,18 @@ currency = String(settings.default_currency || 'USD').trim();
 designs = (cat.designs || []).filter(d => photoSet.has(d.slug));
 }
 
-function renderLandingMosaic(){
-const mosaic = document.getElementById('landingMosaic');
-if (!mosaic || !designs.length) return;
-const shuffled = designs.map(d => [Math.random(), d]).sort((a,b) => a[0]-b[0]).map(x => x[1]).slice(0, 18);
-mosaic.innerHTML = shuffled.map(d => `<img src="photos/${esc(d.slug)}.webp" alt="" loading="lazy" decoding="async">`).join('');
+function initLandingParallax(){
+const landing = document.getElementById('landing');
+const art = document.getElementById('landingArtWrap');
+if (!landing || !art) return;
+landing.addEventListener('pointermove', ev => {
+if (window.matchMedia && window.matchMedia('(max-width:759px)').matches) return;
+const r = landing.getBoundingClientRect();
+const x = (ev.clientX - r.left) / r.width - .5;
+const y = (ev.clientY - r.top) / r.height - .5;
+art.style.transform = `rotateX(${y*-6}deg) rotateY(${x*-10}deg) translate3d(${x*10}px,${y*8}px,0)`;
+});
+landing.addEventListener('pointerleave', () => { art.style.transform = ''; });
 }
 
 function renderLandingSparkles(){
@@ -787,17 +855,19 @@ document.querySelectorAll('[data-en]').forEach(el => el.hidden = lang!=='en');
 document.querySelectorAll('[data-de]').forEach(el => el.hidden = lang!=='de');
 document.querySelector('.intro h1').textContent = t().introTitle;
 document.querySelector('.intro p').textContent = t().introBody;
-document.querySelector('.landing-headline').textContent = t().landingHeadline;
+document.querySelector('.al-kicker').textContent = t().landingKicker;
+document.querySelector('.landing-headline').innerHTML = t().landingHeadline;
 document.querySelector('.landing-sub').textContent = t().landingSub;
-document.querySelector('.landing-cta').textContent = t().landingCta;
+document.querySelector('.landing-cta-text').textContent = t().landingCta;
+document.querySelector('.landing-scrolldown span:last-child').textContent = t().landingScroll;
 document.getElementById('q').placeholder = t().searchPh;
 renderLandingSparkles();
+initLandingParallax();
 
 try {
 await loadCatalogue();
 renderGrid();
 renderCartBar();
-renderLandingMosaic();
 } catch (e) {
 document.getElementById('grid').innerHTML = '';
 const emptyEl = document.getElementById('empty');
